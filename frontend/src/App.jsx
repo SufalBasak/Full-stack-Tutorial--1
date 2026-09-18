@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import StudentForm from "./components/StudentForm.jsx";
 import StudentCard from "./components/StudentCard.jsx";
 
-const API_URL = "http://localhost:8000";
+const API_URL = import.meta.env.VITE_API_URL || "https://full-stack-tutorial-1.onrender.com";
 
 function App() {
   const [students, setStudents] = useState([]);

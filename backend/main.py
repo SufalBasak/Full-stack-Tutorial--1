@@ -2,6 +2,8 @@
 # This is the heart of the backend:
 # the FastAPI app and all routes.
 
+import os
+
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -22,13 +24,17 @@ app = FastAPI(title="Student Card API")
 
 
 # ---------------------------------------------------------------
-# CORS: allow the React app (port 5173)
-# to call this API (port 8000)
+# CORS: allow local and deployed frontend origins
 # ---------------------------------------------------------------
+allowed_origins = os.getenv(
+    "ALLOWED_ORIGINS",
+    "http://localhost:5173,https://full-stack-tutorial-1.onrender.com",
+)
+origins = [origin.strip() for origin in allowed_origins.split(",") if origin.strip()]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "https://full-stack-tutorial-1.onrender.com"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
